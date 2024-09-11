@@ -9,3 +9,4 @@ node {
     echo "Branch Name : ${env.GIT_BRANCH}"
     echo "Up till here"
   }
+}
