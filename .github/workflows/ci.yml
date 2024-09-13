@@ -1,14 +1,6 @@
-name: PYTHON CI
-on: [push]
+on: push
 jobs:
-  jenkins-static-image-pipeline:
-    runs-on: ubuntu-latest
+  first-job:
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses:
-          jenkinsci/jfr-static-image-action@main
-        with:
-          command: run
-          jenkinsfile: Jenkinsfile
-          pluginstxt: plugins.txt
-          jcasc: jcasc.yml
+      - run: echo 'Hello'
