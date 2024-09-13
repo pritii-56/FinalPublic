@@ -1,12 +1,29 @@
-#!groovy
+pipeline {
+    agent any
 
-node {
-  stage ('Checkout') {
-    checkout scm
-  }
-
-  stage('Check Env Parameters'){
-    echo "Branch Name : ${env.GIT_BRANCH}"
-    echo "Up till here"
-  }
+    stages {
+        stage('Init') {
+            steps {
+                echo 'Initializing..'
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+                echo 'Running pytest..'
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
+        stage('Cleanup') {
+            steps {
+                echo 'Cleaning..'
+                echo 'Running docker rmi..'
+            }
+        }
+    }
 }
