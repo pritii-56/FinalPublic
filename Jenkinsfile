@@ -32,6 +32,7 @@ pipeline {
                 env.GITHUB_TOKEN = credentials('GITHUB_TOKEN')
                 echo "Using token: ${env.GITHUB_TOKEN}" // Remove after testing!
                 echo "Pull Request ID: ${prNumber}"
+                echo "Other environment variables: ${env}"
 
                 // Post to GitHub
                 def response = httpRequest(
