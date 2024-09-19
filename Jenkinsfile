@@ -26,7 +26,9 @@ pipeline {
             }
         }
     }
-        post {
+
+        post
+        {
         always {
             script {
                 def statusMessage = currentBuild.result ?: 'SUCCESS'
@@ -36,10 +38,14 @@ pipeline {
                 def branchName = env.GIT_BRANCH
                 def token=''
                 def prNumber='notFound'
+                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'token')]) {
+                        echo "Using token: ${token}" 
+                }
+                
                 def response = httpRequest(
                         url: "https://api.github.com/repos/${repo}/pulls?state=open&head=pritii-56:${branchName}",
                         httpMode: 'GET',
-                        customHeaders: [[name: 'Authorization', value: "token ${GITHUB_TOKEN}"]]
+                        customHeaders: [[name: 'Authorization', value: "token ${token}"]]
                     )
                 def username = sh(script: 'git config user.name', returnStdout: true).trim()
                 echo "Configured Git Username: ${username}"
@@ -58,18 +64,14 @@ pipeline {
                 echo "Pull Request ID: ${prNumber1}"
                 env.each { key, value ->
                         echo "${key} = ${value}"
-                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'token')]) {
-                        echo "Using token: ${token}" 
                 }
-                }
-
                 // Post to GitHub
                 def response1 = httpRequest(
                     url: "https://api.github.com/repos/${repo}/issues/${prNumber}/comments",
                     httpMode: 'POST',
                     contentType: 'APPLICATION_JSON',
                     requestBody: "{\"body\":\"Build ${statusMessage} - [View Build](${env.BUILD_URL})\"}",
-                    customHeaders: [[name: 'Authorization', value: "token ${env.GITHUB_TOKEN}"]]
+                    customHeaders: [[name: 'Authorization', value: "token ${token}"]]
                 )
                 echo "Posted status: ${response.status}"
             }
