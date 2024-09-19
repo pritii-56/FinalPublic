@@ -45,7 +45,7 @@ pipeline {
                 echo "Configured Git Username: ${username}"
                 def pullRequests = readJSON(text: response.content)
                 if (pullRequests) {
-                        def prNumber = pullRequests[0].number
+                        prNumber = pullRequests[0].number
                         echo "Pull Request Number: ${prNumber}"
                     } else {
                         echo "No open pull requests for this branch."
