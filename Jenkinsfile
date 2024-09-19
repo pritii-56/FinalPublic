@@ -19,10 +19,26 @@ pipeline {
                 echo 'Building..'
             }
         }
-        stage('Cleanup') {
-            steps {
-                echo 'Cleaning..'
-                echo 'Running docker rmi..'
+    }
+        post {
+        always {
+            script {
+                def statusMessage = currentBuild.result ?: 'SUCCESS'
+                def prNumber = env.CHANGE_ID // Get PR number
+                def repo = "pritii-56/FinalPublic" // Change to your repo
+
+                // Use the credentials
+                def token = credentials('GITHUB_TOKEN')
+
+                // Post to GitHub
+                def response = httpRequest(
+                    url: "https://api.github.com/repos/${repo}/issues/${prNumber}/comments",
+                    httpMode: 'POST',
+                    contentType: 'APPLICATION_JSON',
+                    requestBody: "{\"body\":\"Build ${statusMessage} - [View Build](${env.BUILD_URL})\"}",
+                    customHeaders: [[name: 'Authorization', value: "token ${token}"]]
+                )
+                echo "Posted status: ${response.status}"
             }
         }
     }
