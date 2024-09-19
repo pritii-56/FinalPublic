@@ -29,6 +29,8 @@ pipeline {
 
                 // Use the credentials
                 def token = credentials('GITHUB_TOKEN')
+                echo "Using token: ${env.GITHUB_TOKEN}" // Remove after testing!
+                echo "Pull Request ID: ${env.CHANGE_ID}"
 
                 // Post to GitHub
                 def response = httpRequest(
