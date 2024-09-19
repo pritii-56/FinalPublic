@@ -4,5 +4,4 @@ c=90
 d=90
 g=8
 t=0
-u=0
 print(a+b+c)
