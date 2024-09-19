@@ -28,9 +28,10 @@ pipeline {
                 def repo = "pritii-56/FinalPublic" // Change to your repo
 
                 // Use the credentials
-                def token = credentials('GITHUB_TOKEN')
+                //def token = credentials('GITHUB_TOKEN')
+                env.GITHUB_TOKEN = credentials('GITHUB_TOKEN')
                 echo "Using token: ${env.GITHUB_TOKEN}" // Remove after testing!
-                echo "Pull Request ID: ${env.CHANGE_ID}"
+                echo "Pull Request ID: ${prNumber}"
 
                 // Post to GitHub
                 def response = httpRequest(
@@ -38,7 +39,7 @@ pipeline {
                     httpMode: 'POST',
                     contentType: 'APPLICATION_JSON',
                     requestBody: "{\"body\":\"Build ${statusMessage} - [View Build](${env.BUILD_URL})\"}",
-                    customHeaders: [[name: 'Authorization', value: "token ${token}"]]
+                    customHeaders: [[name: 'Authorization', value: "token ${env.GITHUB_TOKEN}"]]
                 )
                 echo "Posted status: ${response.status}"
             }
