@@ -30,7 +30,8 @@ pipeline {
         always {
             script {
                 def statusMessage = currentBuild.result ?: 'SUCCESS'
-                def prNumber = env.CHANGE_ID // Get PR number
+                echo "the status: ${currentBuild.result}"
+                def prNumber1 = env.CHANGE_ID // Get PR number
                 def repo = "pritii-56/FinalPublic" // Change to your repo
                 def branchName = env.GIT_BRANCH
                 def response = httpRequest(
@@ -52,7 +53,7 @@ pipeline {
                 //def token = credentials('GITHUB_TOKEN')
                 //env.GITHUB_TOKEN = credentials('GITHUB_TOKEN')
                 //echo "Using token: ${env.GITHUB_TOKEN}" // Remove after testing!
-                echo "Pull Request ID: ${prNumber}"
+                echo "Pull Request ID: ${prNumber1}"
                 env.each { key, value ->
                         echo "${key} = ${value}"
                 withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
