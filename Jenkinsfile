@@ -58,6 +58,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                         echo "Using token: ${GITHUB_TOKEN}" 
                 }
+                }
 
                 // Post to GitHub
                 def response1 = httpRequest(
