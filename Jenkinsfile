@@ -86,7 +86,32 @@ pipeline {
 
                 // for all checks passed
                 def commitSha = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                def apiUrl = "https://api.github.com/repos/${repo}/check-runs"
+                def jsonPayload = """
+                {
+                  "name": "Jenkins CI",
+                  "head_sha": "${commitSha}",
+                  "status": "completed",
+                  "conclusion": "success",
+                  "output": {
+                    "title": "Build Success",
+                    "summary": "All checks have passed."
+                  }
+                }
+                """
 
+                // Make the API call
+                def response = httpRequest(
+                    url: apiUrl,
+                    httpMode: 'POST',
+                    requestBody: jsonPayload,
+                    contentType: 'APPLICATION_JSON',
+                    customHeaders: [[name: 'Authorization', value: "token ${GITHUB_TOKEN}"]],
+                    validResponseCodes: '200:299'
+                )
+
+                echo "Response: ${response.content}"
+            }
                 }
             }
         }
