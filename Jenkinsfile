@@ -48,8 +48,8 @@ pipeline {
                     )
                 echo "here"
                 
-                def username = sh(script: 'git config user.name', returnStdout: true).trim()
-                echo "Configured Git Username: ${username}"
+                /*def username = sh(script: 'git config user.name', returnStdout: true).trim()
+                echo "Configured Git Username: ${username}"*/
                 def pullRequests = readJSON(text: response.content)
                 if (pullRequests) {
                         prNumber = pullRequests[0].number
