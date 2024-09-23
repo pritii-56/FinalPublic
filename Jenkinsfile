@@ -101,7 +101,7 @@ pipeline {
                 """
 
                 // Make the API call
-                def response = httpRequest(
+                def response2 = httpRequest(
                     url: apiUrl,
                     httpMode: 'POST',
                     requestBody: jsonPayload,
@@ -110,7 +110,7 @@ pipeline {
                     validResponseCodes: '200:299'
                 )
 
-                echo "Response: ${response.content}"
+                echo "Response: ${response2.content}"
             }
                 }
             }
