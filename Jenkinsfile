@@ -39,7 +39,7 @@ pipeline {
                 def branchName = env.GIT_BRANCH
                 def prNumber='notFound'
                 def comment = """\
-                🎉 Build Successful!
+                Build Successful!
                 - Branch: ${env.BRANCH_NAME}
                 - Build Number: ${env.BUILD_NUMBER}
                 - Commit: ${env.GIT_COMMIT}
@@ -78,8 +78,8 @@ pipeline {
                     url: "https://api.github.com/repos/${repo}/issues/${prNumber}/comments",
                     httpMode: 'POST',
                     contentType: 'APPLICATION_JSON',
-                    //requestBody: "{\"body\":\"Build ${statusMessage} - [View Build](${env.BUILD_URL})\"}",
-                    requestBody: "{\"body\": \"${comment}\"}",
+                    requestBody: "{\"body\":\"Build ${statusMessage} - [View Build](${env.BUILD_URL})\"}",
+                    //requestBody: "{\"body\": \"${comment}\"}",
                     customHeaders: [[name: 'Authorization', value: "token ${GITHUB_TOKEN}"]]
                 )
                 echo "Posted status: ${response.status}"
