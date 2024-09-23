@@ -36,7 +36,6 @@ pipeline {
                 def prNumber1 = env.CHANGE_ID // Get PR number
                 def repo = "pritii-56/FinalPublic" // Change to your repo
                 def branchName = env.GIT_BRANCH
-                #def token=''
                 def prNumber='notFound'
                 withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                         echo "Using token: ${GITHUB_TOKEN}" 
