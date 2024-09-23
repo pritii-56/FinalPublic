@@ -87,7 +87,7 @@ pipeline {
                 // for all checks passed
                 def commitSha = env.GIT_COMMIT
                 echo "Commit SHA: ${commitSha}"
-                def apiUrl = "https://api.github.com/repos/pritii-56/${repo}/check-runs"
+                def apiUrl = "https://api.github.com/repos/${repo}/check-runs"
                 // Create the JSON payload for the check run
                 def jsonPayload = """
                 {
@@ -111,7 +111,7 @@ pipeline {
                     validResponseCodes: '200:201' // Accept 200 and 201 responses
                 )
 
-                echo "Check Run Response: ${response2.status}, Body: ${response.content}"
+                echo "Check Run Response: ${response2.status}, Body: ${response2.content}"
             }
                 }
             }
