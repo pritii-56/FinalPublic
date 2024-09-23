@@ -38,8 +38,8 @@ pipeline {
                 def branchName = env.GIT_BRANCH
                 def token=''
                 def prNumber='notFound'
-                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'token')]) {
-                        echo "Using token: ${token}" 
+                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
+                        echo "Using token: ${GITHUB_TOKEN}" 
                 }
                 
                 def response = httpRequest(
