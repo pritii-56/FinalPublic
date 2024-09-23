@@ -45,7 +45,7 @@ pipeline {
                 def response = httpRequest(
                         url: "https://api.github.com/repos/${repo}/pulls?state=open&head=pritii-56:${branchName}",
                         httpMode: 'GET',
-                        customHeaders: [[name: 'Authorization', value: "token ${token}"]]
+                        customHeaders: [[name: 'Authorization', value: "token ${GITHUB_TOKEN}"]]
                     )
                 def username = sh(script: 'git config user.name', returnStdout: true).trim()
                 echo "Configured Git Username: ${username}"
