@@ -34,6 +34,7 @@ pipeline {
                 def statusMessage = currentBuild.result ?: 'SUCCESS'
                 echo "the status: ${currentBuild.result}"
                 def prNumber1 = env.CHANGE_ID // Get PR number
+                echo "pr number 1 : ${env.CHANGE_ID}"
                 def repo = "pritii-56/FinalPublic" // Change to your repo
                 def branchName = env.GIT_BRANCH
                 def prNumber='notFound'
@@ -47,7 +48,6 @@ pipeline {
                         customHeaders: [[name: 'Authorization', value: "token ${GITHUB_TOKEN}"]]
                     )
                 echo "here"
-                
                 /*def username = sh(script: 'git config user.name', returnStdout: true).trim()
                 echo "Configured Git Username: ${username}"*/
                 def pullRequests = readJSON(text: response.content)
