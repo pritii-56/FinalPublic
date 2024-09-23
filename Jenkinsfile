@@ -86,7 +86,7 @@ pipeline {
 
                 // for all checks passed
                 def commitSha = env.GIT_COMMIT
-                def apiUrl = "https://api.github.com/repos/${repo}/check-runs"
+                def apiUrl = "https://api.github.com/pritii-56/repos/${repo}/check-runs"
                 // Create the JSON payload for the check run
                 def jsonPayload = """
                 {
