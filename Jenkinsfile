@@ -36,17 +36,19 @@ pipeline {
                 def prNumber1 = env.CHANGE_ID // Get PR number
                 def repo = "pritii-56/FinalPublic" // Change to your repo
                 def branchName = env.GIT_BRANCH
-                def token=''
+                #def token=''
                 def prNumber='notFound'
                 withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                         echo "Using token: ${GITHUB_TOKEN}" 
-                }
+                
                 
                 def response = httpRequest(
                         url: "https://api.github.com/repos/${repo}/pulls?state=open&head=pritii-56:${branchName}",
                         httpMode: 'GET',
                         customHeaders: [[name: 'Authorization', value: "token ${GITHUB_TOKEN}"]]
                     )
+                echo "here"
+                }
                 def username = sh(script: 'git config user.name', returnStdout: true).trim()
                 echo "Configured Git Username: ${username}"
                 def pullRequests = readJSON(text: response.content)
