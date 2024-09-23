@@ -38,7 +38,14 @@ pipeline {
                 def repo = "pritii-56/FinalPublic" // Change to your repo
                 def branchName = env.GIT_BRANCH
                 def prNumber='notFound'
-                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
+                def comment = """\
+                🎉 Build Successful!
+                - Branch: ${env.BRANCH_NAME}
+                - Build Number: ${env.BUILD_NUMBER}
+                - Commit: ${env.GIT_COMMIT}
+                """
+                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')])
+                {
                         echo "Using token: ${GITHUB_TOKEN}" 
                 
                 
@@ -71,10 +78,15 @@ pipeline {
                     url: "https://api.github.com/repos/${repo}/issues/${prNumber}/comments",
                     httpMode: 'POST',
                     contentType: 'APPLICATION_JSON',
-                    requestBody: "{\"body\":\"Build ${statusMessage} - [View Build](${env.BUILD_URL})\"}",
+                    //requestBody: "{\"body\":\"Build ${statusMessage} - [View Build](${env.BUILD_URL})\"}",
+                    requestBody: "{\"body\": \"${comment}\"}",
                     customHeaders: [[name: 'Authorization', value: "token ${GITHUB_TOKEN}"]]
                 )
                 echo "Posted status: ${response.status}"
+
+                // for all checks passed
+                def commitSha = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+
                 }
             }
         }
