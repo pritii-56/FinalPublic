@@ -38,12 +38,6 @@ pipeline {
                 def repo = "pritii-56/FinalPublic" // Change to your repo
                 def branchName = env.GIT_BRANCH
                 def prNumber='notFound'
-                def comment = """\ 
-                Build Successful!
-                - Branch: ${env.BRANCH_NAME}
-                - Build Number: ${env.BUILD_NUMBER}
-                - Commit: ${env.GIT_COMMIT}
-                """
                 withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')])
                 {
                         echo "Using token: ${GITHUB_TOKEN}" 
